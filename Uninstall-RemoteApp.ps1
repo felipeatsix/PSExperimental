@@ -1,5 +1,5 @@
 Function Uninstall-RemoteApp {    
-# Requires -Module ITSD-Tools
+# Requires -Function Find-Software
 
 <#
     .SYNOPSIS
