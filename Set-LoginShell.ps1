@@ -5,7 +5,7 @@
        Quickly set loginshell attribute for an AD user.
     
     .DESCRIPTION
-       Use this script when a person can't use sudo commands or any commands at all into their dev vm's. 
+       This function helps to solve some issues that may be caused by a wrong AD user configuration. 
     
     .PARAMETER UserName
         Set the AD user target.
