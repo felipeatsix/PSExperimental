@@ -1,4 +1,4 @@
-function Clear-Disk {
+function Clear-OldCacheData {
 
 <#
     .SYNOPSIS
