@@ -1,5 +1,7 @@
 Function Uninstall-RemoteApp {    
-# Requires -Function Find-Software
+
+# Requires -RunAsAdministrator
+# This function uses 'Find-Software' as a helper function.
 
 <#
     .SYNOPSIS
