@@ -6,8 +6,7 @@ function Get-Employee {
             Get a customizable Active Directory user data searching by name or username.
         
         .DESCRIPTION
-            This function was created mainly for using in Wayfair HelpBar.
-            to easily find user data filtering it with useful information for daily helpbar troubleshooting.
+            Find user data filtering it with useful information.
         
         .PARAMETER UserName
             Search for the user by user name.
