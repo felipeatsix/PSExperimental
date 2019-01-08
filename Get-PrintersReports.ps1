@@ -1,9 +1,9 @@
-Function Get-PrinterReports {
+Function Get-PrinterSNMP {
  
     Begin {       
         $snmp = New-Object -ComObject olePrn.OleSNMP
         $ping = New-Object System.Net.NetworkInformation.Ping
-        $data = Import-CSV [csv filepath]        
+        $data = [csv file path]        
         $File = [html out file path] 
         $VerbosePreference = "Continue"
         $Css = [css content file path]
@@ -11,12 +11,12 @@ Function Get-PrinterReports {
         if (!(Test-Path $File)) {
             New-Item -Path $File -Name Printer_Reports.html -ItemType File -Force
         }
-        
+
         else { Clear-Content $File }
     }
     
     Process { 
-    
+            
         foreach ($printer in $data) {                                            
 
             try { $result = $ping.Send($printer.ip) } 
@@ -54,7 +54,7 @@ Function Get-PrinterReports {
                 Try { $BlackVolume = $snmp.get("43.11.1.1.9.1.1") } Catch { $BlackVolume = $null }
                 
                 if ($BlackCapacity -ne $null -and $BlackVolume -ne $null) {
-                    [int]$BlackToner = ($BlackVolume / $BlackCapacity * 100)
+                    [int]$BlackToner = ($BlackVolume / $BlackCapacity * 100)                    
                 }              
 
             # COLORED TONERS
@@ -81,7 +81,7 @@ Function Get-PrinterReports {
                     if ($YellowCapacity -ne $null -and $YellowVolume -ne $null) {
                         [int]$YellowToner = ($YellowVolume / $YellowCapacity * 100)
                     }
-                }                
+                }
 
 #endregion GET DATA  
 
@@ -97,8 +97,18 @@ Function Get-PrinterReports {
                     Cyan = "$($CyanToner)%"
                     Magenta = "$($MagentaToner)%"
                     Yellow = "$($YellowToner)%"
-                    Status = $StatusTree
-                }                
+                    Alerts = $StatusTree
+                }
+                                
+                Switch ($Color) {
+                
+                    'Yes' {
+                        $PrinterType = @('Model','Color','Trays','Black','Cyan','Magenta','Yellow','Alerts')
+                    }
+                    'No' {
+                        $PrinterType = 'Model','Color','Trays','Black','Alerts'
+                    }
+                }
 
             # HTML
                 $params = @{
@@ -107,7 +117,7 @@ Function Get-PrinterReports {
                     MakeTableDynamic = $true
                     MakeHiddenSection = $true
                     TableCssClass = 'List'
-                    Properties = 'Model','Color','Trays','Black','Cyan','Magenta','Yellow','Status'
+                    Properties = $PrinterType
                 }                
                             
                 $Frag = $Object | ConvertTo-EnhancedHTMLFragment @params
