@@ -1,4 +1,4 @@
-Function Get-PrinterSNMP {
+Function Get-PrinterReports {
  
     Begin {       
         $snmp = New-Object -ComObject olePrn.OleSNMP
