@@ -1,7 +1,7 @@
 function Get-File {
 <#
     .SYNOPSIS
-        Query for files in local or remote computer.
+        Search for files in local or remote computer.
     
     .DESCRIPTION
         This Powershell function will find files using specifc criteria. 
