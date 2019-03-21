@@ -14,8 +14,8 @@
         Set the LoginShell attribute.
     
     .Example
-        Set-LoginShell -UserName fdesouzasantos -Shell /bin/bash
-        This will set fdesouzasantos loginshell attribute value to /bin/bash             
+        Set-LoginShell -UserName [username] -Shell /bin/bash
+        This will set username loginshell attribute value to /bin/bash             
 #>
 
     [CmdletBinding(ConfirmImpact = 'High', SupportsShouldProcess)]
