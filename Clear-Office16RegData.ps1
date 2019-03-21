@@ -11,8 +11,8 @@
         Set the target computer name. 
     
     .EXAMPLE
-        Clear-Office16RegData -ComputerName LT9437
-        This command will clean Office 16 registry data in LT9437 for current logged user. 
+        Clear-Office16RegData -ComputerName [hostname]
+        This command will clean Office 16 registry data in [hostname] for current logged user. 
 #>
     param(
         [Parameter(Mandatory)]
