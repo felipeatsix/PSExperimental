@@ -13,8 +13,8 @@
         Set the user name folder to have the Skype For Business data wiped. 
 
     .EXAMPLE
-        Clear-LyncData -ComputerName 9437 -UserName fdesouzasantos
-        This command will clean all Skype For Business data for the user fdesouzasantos in LT9437 computer.        
+        Clear-LyncData -ComputerName [hostname] -UserName user
+        This command will clean all Skype For Business data for the user in hostname.        
 #>
     [Cmdletbinding()]
     param(
