@@ -16,11 +16,6 @@
     .PARAMETER Icon
         Set the Icon for the shortcut file. 
         This can be a path for an .ico or an .exe file
-
-    .EXAMPLE
-        New-Shortcut -Source Https://admin.wayfair.com -Destination \\LT9437\c$\users\fdesouzasantos\desktop -Icon '\\LT9437\c$\Program Files (x86)\Google\Chrome\Application.exe'
-        This command will create a shortcut in LT9437 located in fdesouzasantos user's desktop with google chrome application icon. 
-
 #>       
     [CmdletBinding()]
     param(                
