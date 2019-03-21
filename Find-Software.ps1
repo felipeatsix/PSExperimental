@@ -17,8 +17,8 @@
             Set the computer name target to run it remotely.
         
         .EXAMPLE
-            Find-Software -DisplayName 'Adwords' -ComputerName LT9437
-            This command will get all installed softwares in LT9437 that matches 'Adwords' keyword in it's name.
+            Find-Software -DisplayName '[software]' -ComputerName [hostname]
+            This command will get all installed softwares in [hostname] that matches 'Adwords' keyword in it's name.
     
             * You can use the alias -Name instead -DisplayName
         
@@ -27,8 +27,8 @@
             This command will get the software called 'Skype' in the local computer.
             
         .EXAMPLE
-            Find-Software -Publisher 'Microsoft' -ComputerName LT9437
-            This command will get every software in LT9437 that have Microsoft as it's publisher.         
+            Find-Software -Publisher 'Microsoft' -ComputerName [hostname]
+            This command will get every software in hostname that have Microsoft as it's publisher.         
     
             * You can use the alias -Vendor instead -Publisher
     #>    
