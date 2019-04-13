@@ -4,7 +4,7 @@ Function Get-HTMLPCRamUsage {
         
         $Ram = Get-WmiObject -class Win32_OperatingSystem                
         $Css = 'C:\htmlpcramusage.css'
-        
+        $Title = "$(hostname)"
         $Properties = @(        
             
             'Computer',
@@ -45,7 +45,7 @@ Function Get-HTMLPCRamUsage {
         $params = @{
             
             As = 'List'
-            PreContent = "<h2>FELIPE-PC</h2>"
+            PreContent = "<h2>$Title</h2>"
             MakeTableDynamic = $true
             MakeHiddenSection = $true
             TableCssClass = 'List'
