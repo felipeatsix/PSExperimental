@@ -26,7 +26,7 @@ function Read-RamUsage {
     param(
         [ValidateScript({Test-Connection $_ -Quiet -Count 1})]                
         [string]$ComputerName = 'localhost',
-        [Parameter(Mandatory, HelpMessage="Specify RAM check interval in seconds)]
+        [Parameter(Mandatory, HelpMessage="Specify RAM check interval in seconds")]
         [int]$Interval,
         [Parameter(Mandatory)]
         [int]$Count
