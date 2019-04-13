@@ -1,3 +1,5 @@
+#Requires -Module EnhancedHTML2
+
 Function Get-HTMLPCRamUsage {
     
     Begin{        
