@@ -4,10 +4,10 @@ Function Get-HTMLPCRamUsage {
     
     Begin{        
         
-        $Ram = Get-WmiObject -class Win32_OperatingSystem                
+        $Ram = Get-CimInstance -ClassName Win32_OperatingSystem                
         $Css = 'C:\htmlpcramusage.css'
-        $Title = "$(hostname)"
-        $Properties = @(        
+        $RamSection = "$(hostname) - RAM Usage"
+        $RamProperties = @(        
             
             'Computer',
             'TotalRam',
@@ -47,11 +47,11 @@ Function Get-HTMLPCRamUsage {
         $params = @{
             
             As = 'List'
-            PreContent = "<h2>$Title</h2>"
+            PreContent = "<h2>$RamSection</h2>"
             MakeTableDynamic = $true
             MakeHiddenSection = $true
             TableCssClass = 'List'
-            Properties = $Properties
+            Properties = $RamProperties
         }        
 
         $Frag = $Table | ConvertTo-EnhancedHTMLFragment @params   
