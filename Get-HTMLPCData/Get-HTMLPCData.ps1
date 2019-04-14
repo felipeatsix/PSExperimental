@@ -2,10 +2,10 @@
 
 Function Get-HTMLPCRamUsage {
     
-    Begin{        
-        
+    Begin{      
+        $RootPath = $PSScriptRoot                  
         $Ram = Get-CimInstance -ClassName Win32_OperatingSystem                
-        $Css = 'C:\htmlpcramusage.css'
+        $Css = Get-Item "$RootPath\*.css"
         $RamSection = "$(hostname) - RAM Usage"
         $RamProperties = @(        
             
@@ -60,14 +60,14 @@ Function Get-HTMLPCRamUsage {
         $HTMLParams = @{
             Title = 'Monitor RAM Usage'
             HTMLFragments = $Frag
-            CssUri = $Css
+            CssUri = $Css.FullName
         } 
     }
 
     End {
     
         $HTML = ConvertTo-EnhancedHTML @HTMLParams
-        $HTML | Out-File c:\PCData.html -Force
-        Invoke-Item c:\PCDATA.html
+        $HTML | Out-File $RootPath\PCDATA.html
+        Invoke-Item $RootPath\PCDATA.html
     }
 }

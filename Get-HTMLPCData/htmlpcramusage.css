@@ -1,0 +1,26 @@
+body {    
+    color:#4d4d4d;
+    font-family:Calibri,Tahoma;
+    font-size: 14pt;
+    background-color:#f2f2f2;
+}
+
+h2 {     
+    border-top:2px solid blue;             
+}
+
+.sectionheader { cursor:pointer; }
+.sectionheader:hover { color:#3366cc; }
+
+.Green {    
+    color:green;
+    font-weight:bold;
+}
+.Yellow {    
+    color:Yellow;
+    font-weight:bold;
+}
+.Red {
+    color:Red;
+    font-weight:bold;
+}
