@@ -4,7 +4,7 @@
 # Set-ExecutionPolicy RemoteSigned
 # Install-Module EnhancedHTML2 -Verbose
 
-Function Get-HTMLPCRamUsage {
+Function Get-HTMLComputerData {
     
     Begin{      
                 
