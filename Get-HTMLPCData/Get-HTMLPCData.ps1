@@ -1,5 +1,9 @@
 #Requires -Module EnhancedHTML2
 
+# Make sure to setup your execution policy and to install the required module. 
+# Set-ExecutionPolicy RemoteSigned
+# Install-Module EnhancedHTML2 -Verbose
+
 Function Get-HTMLPCRamUsage {
     
     Begin{      
