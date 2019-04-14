@@ -7,13 +7,16 @@
 Function Get-HTMLPCRamUsage {
     
     Begin{      
+                
         $RootPath = $PSScriptRoot                  
-        $Ram = Get-CimInstance -ClassName Win32_OperatingSystem                
+        $OSData = Get-CimInstance -ClassName Win32_OperatingSystem                
         $Css = Get-Item "$RootPath\*.css"
-        $RamSection = "$(hostname) - RAM Usage"
-        $RamProperties = @(        
+        $RamSection = "$(hostname): RAM Usage"
+        $OSinfoSection = "$(hostname): OS Info"
+
+        # Fragments Properties                
+        $RamProperties = @(                                            
             
-            'Computer',
             'TotalRam',
             'FreeRam',
             @{
@@ -24,46 +27,67 @@ Function Get-HTMLPCRamUsage {
                     Else{'Red'}
                 }
             }
-        )        
+        )
+        
+        $OSInfoProperties = @(            
+            
+            'Computer'
+            'Last Bootup Time'
+            'Install Date'
+        )
     }
     
     Process {        
     
-        # TotalRam     
-        [int]$TotalRam = ($ram.TotalVisibleMemorySize / 1mb)
+        # Ram custom vars
 
-        # FreeRam    
-        $RamFree = [math]::Round($ram.FreePhysicalMemory / 1mb,1)
+        [int]$TotalRam = ($OSData.TotalVisibleMemorySize / 1mb)
+        $RamFree = [math]::Round($OSData.FreePhysicalMemory / 1mb,1)
+        $RamFP = "{0:P0}" -f ($OSData.FreePhysicalMemory / $OSData.TotalVisibleMemorySize)
 
-        # Free Percentage        
-        $RamFP = "{0:P0}" -f ($ram.FreePhysicalMemory / $ram.TotalVisibleMemorySize)
+        # Tables
 
-        # Table
-        $Table = [PSCustomObject]@{        
-            
-            Computer = $(hostname)
+        $RAMTable = [PSCustomObject]@{        
+
             TotalRam = "$TotalRam GB"                
             FreeRam = "$RamFree GB"
             FreePercentageRam = $RAMFP
         }                    
+
+        $OSInfoTable = [PSCustomObject]@{        
+
+            'Computer' = "$(hostname)"                 
+            'Last Bootup Time' = $OSData.lastbootuptime
+            'Install Date' = $OSData.InstallDate            
+        }                    
         
-        # HTML Fragment
-        $params = @{
+        # HTML Fragments
+        
+        $RAMparams = @{
             
             As = 'List'
             PreContent = "<h2>$RamSection</h2>"
-            MakeTableDynamic = $true
             MakeHiddenSection = $true
             TableCssClass = 'List'
             Properties = $RamProperties
-        }        
+        }
 
-        $Frag = $Table | ConvertTo-EnhancedHTMLFragment @params   
+        $OSInfoparams = @{
+            
+            As = 'List'
+            PreContent = "<h2>$OSInfoSection</h2>"
+            MakeHiddenSection = $true
+            TableCssClass = 'List'
+            Properties = $OSINfoProperties
+        }        
+        
+        $RAMFrag = $RAMTable | ConvertTo-EnhancedHTMLFragment @RAMparams   
+        $OSFrag = $OSInfotable | ConvertTo-EnhancedHTMLFragment @OSInfoparams
 
         # HTML Build
         $HTMLParams = @{
             Title = 'Monitor RAM Usage'
-            HTMLFragments = $Frag
+            HTMLFragments = $OSFrag,$RAMFrag
             CssUri = $Css.FullName
         } 
     }
@@ -71,7 +95,7 @@ Function Get-HTMLPCRamUsage {
     End {
     
         $HTML = ConvertTo-EnhancedHTML @HTMLParams
-        $HTML | Out-File $RootPath\PCDATA.html
+        $HTML | Out-File $RootPath\PCDATA.html -Force
         Invoke-Item $RootPath\PCDATA.html
     }
 }
