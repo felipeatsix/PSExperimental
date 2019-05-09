@@ -3,10 +3,10 @@ Function Get-PrinterSNMP {
     Begin {       
         $snmp = New-Object -ComObject olePrn.OleSNMP
         $ping = New-Object System.Net.NetworkInformation.Ping
-        $data = [csv file path]        
-        $File = [html out file path] 
+        $data = "csv file path"
+        $File = "html out file path"
         $VerbosePreference = "Continue"
-        $Css = [css content file path]
+        $Css = "css content file path"
 
         if (!(Test-Path $File)) {
             New-Item -Path $File -Name Printer_Reports.html -ItemType File -Force
@@ -83,7 +83,7 @@ Function Get-PrinterSNMP {
                     }
                 }
 
-#endregion GET DATA  
+#endregion 
 
 #region Build OBJECT / HTML CONTENT
 
@@ -122,9 +122,8 @@ Function Get-PrinterSNMP {
                             
                 $Frag = $Object | ConvertTo-EnhancedHTMLFragment @params
 
-#endregion Build OBJECT / HTML CONTENT                
+#endregion              
 
-                
                 $HTMLParams = @{
                     Title = 'Printer Reports'
                     HTMLFragments = $Frag

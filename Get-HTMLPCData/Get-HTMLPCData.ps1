@@ -12,9 +12,10 @@ Function Get-HTMLComputerData {
         $OSData = Get-CimInstance -ClassName Win32_OperatingSystem                
         $Css = Get-Item "$RootPath\*.css"
         $RamSection = "$(hostname): RAM Usage"
-        $OSinfoSection = "$(hostname): OS Info"
+        $OSinfoSection = "$(hostname): OS Info"     
 
         # Fragments Properties                
+        
         $RamProperties = @(                                            
             
             'TotalRam',
@@ -35,32 +36,34 @@ Function Get-HTMLComputerData {
             'Last Bootup Time'
             'Install Date'
         )
-    }
-    
-    Process {        
-    
-        # Ram custom vars
-
-        [int]$TotalRam = ($OSData.TotalVisibleMemorySize / 1mb)
-        $RamFree = [math]::Round($OSData.FreePhysicalMemory / 1mb,1)
-        $RamFP = "{0:P0}" -f ($OSData.FreePhysicalMemory / $OSData.TotalVisibleMemorySize)
-
-        # Tables
-
-        $RAMTable = [PSCustomObject]@{        
-
-            TotalRam = "$TotalRam GB"                
-            FreeRam = "$RamFree GB"
-            FreePercentageRam = $RAMFP
-        }                    
-
-        $OSInfoTable = [PSCustomObject]@{        
-
-            'Computer' = "$(hostname)"                 
-            'Last Bootup Time' = $OSData.lastbootuptime
-            'Install Date' = $OSData.InstallDate            
-        }                    
         
+    }   
+    
+        Process {        
+            
+            # Ram custom vars
+            
+            [int]$TotalRam = ($OSData.TotalVisibleMemorySize / 1mb)
+            $RamFree = [math]::Round($OSData.FreePhysicalMemory / 1mb,1)
+            $RamFP = "{0:P0}" -f ($OSData.FreePhysicalMemory / $OSData.TotalVisibleMemorySize)
+            
+            # Tables
+            
+            $RAMTable = [PSCustomObject]@{        
+                
+                TotalRam = "$TotalRam GB"                
+                FreeRam = "$RamFree GB"
+                FreePercentageRam = $RAMFP
+            }                    
+
+            $OSInfoTable = [PSCustomObject]@{        
+
+                'Computer' = "$(hostname)"                 
+                'Last Bootup Time' = $OSData.lastbootuptime
+                'Install Date' = $OSData.InstallDate            
+            }
+            
+
         # HTML Fragments
         
         $RAMparams = @{
@@ -79,15 +82,27 @@ Function Get-HTMLComputerData {
             MakeHiddenSection = $true
             TableCssClass = 'List'
             Properties = $OSINfoProperties
-        }        
+        }
         
-        $RAMFrag = $RAMTable | ConvertTo-EnhancedHTMLFragment @RAMparams   
-        $OSFrag = $OSInfotable | ConvertTo-EnhancedHTMLFragment @OSInfoparams
+        $ProcessParams = @{
+            
+            As = 'Table'
+            PreContent = "<h2>Processes</h2>"
+            MakeHiddenSection = $true
+            TableCssClass = 'Grid'
+            Properties = 'Name'            
+        }
+        
+            $RAMFrag = $RAMTable | ConvertTo-EnhancedHTMLFragment @RAMparams   
+            $OSFrag = $OSInfotable | ConvertTo-EnhancedHTMLFragment @OSInfoparams
+            $ProcessFrag  = Get-Process | ConvertTo-EnhancedHTMLFragment @ProcessParams
 
         # HTML Build
+        
         $HTMLParams = @{
-            Title = 'Monitor RAM Usage'
-            HTMLFragments = $OSFrag,$RAMFrag
+            
+            Title = 'PC DATA'
+            HTMLFragments = $OSFrag,$RAMFrag,$ProcessFrag
             CssUri = $Css.FullName
         } 
     }
